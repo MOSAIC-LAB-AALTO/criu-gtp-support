@@ -688,20 +688,16 @@ static int dump_one_ethernet(struct ifinfomsg *ifi, char *kind,
 	return dump_unknown_device(ifi, kind, tb, fds);
 }
 
-
+/*
 static int dump_one_gendev(struct ifinfomsg *ifi, char *kind,
 		struct nlattr **tb, struct cr_imgset *fds)
 {
-	if (!strcmp(kind, "tun")){
+	if (!strcmp(kind, "tun"))
 		return dump_one_netdev(ND_TYPE__TUN, ifi, tb, fds, dump_tun_link);
-	}else if (!strcmp(kind, "gtp")){
-		pr_info("++++++++++++++++ GTP Device found! ++++++++++++++++");
-		return dump_one_netdev(ND_TYPE__GTP, ifi, tb, fds, dump_tun_link);	
-	}
 
 	return dump_unknown_device(ifi, kind, tb, fds);
 }
-
+*/
 
 static int dump_one_voiddev(struct ifinfomsg *ifi, char *kind,
 		struct nlattr **tb, struct cr_imgset *fds)
@@ -928,8 +924,6 @@ static int dump_one_gtp(struct ifinfomsg *ifi, char *kind,
 		return -1;
 	}
 
-	pr_info("++++++++++++++++ GTP :%s", name);
-
 	if (!strcmp(name, "gtp0")) {
 		pr_info("found %s, ignoring\n", name);
 		return 0;
@@ -992,9 +986,9 @@ static int dump_one_link(struct nlmsghdr *hdr, void *arg)
 		ret = dump_one_ethernet(ifi, kind, tb, fds);
 		break;
 	case ARPHRD_NONE:
-		pr_info("This could be a gtp tunnel hello world!\n");
-		ret = dump_one_gendev(ifi, kind, tb, fds);
-		//ret = dump_one_gtp(ifi, kind, tb, fds);
+		pr_info("This could be a gtp tunnel\n");
+		//ret = dump_one_gendev(ifi, kind, tb, fds);
+		ret = dump_one_gtp(ifi, kind, tb, fds);
 		break;
 	case ARPHRD_VOID:
 		ret = dump_one_voiddev(ifi, kind, tb, fds);

@@ -5,6 +5,8 @@ import "opts.proto";
 import "tun.proto";
 import "sysctl.proto";
 import "sit.proto";
+/* importing the gtp protocol definition */
+import "gtp.proto";
 
 enum nd_type {
 	LOOPBACK	= 1;
@@ -21,6 +23,7 @@ enum nd_type {
 	BRIDGE		= 6;
 	MACVLAN		= 7;
 	SIT		= 8;
+	GTP     = 9;
 }
 
 message net_device_entry {
@@ -43,6 +46,10 @@ message net_device_entry {
 	optional macvlan_link_entry	macvlan		= 11;
 
 	optional sit_entry sit		= 15;
+
+	optional gtp_entry gtp    = 16;
+
+	//optional gtpu_entry gtpu    = 17;
 }
 
 message netns_entry {
